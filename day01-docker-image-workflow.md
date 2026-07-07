@@ -2,8 +2,15 @@ Day 1 - Docker Refresher and Image Workflow
 Objective
 Build and run a static site Docker image, understand the fundamental concepts of images vs containers, and document the complete workflow with validation.
 
-Textbook Chapters Studied
-Chapter 2 - Docker Foundations
+## Textbook Chapters Studied
+- Chapter 2 - Docker Foundations (Pages 21-23)
+  - 2.1: Image vs Container
+  - 2.2: Dockerfile Basics
+  - 2.3: Basic Commands
+  - 2.4: Command Interpretation
+  - 2.5: Port Mapping
+  - 2.6: Logs and Troubleshooting
+  - 2.7: Interview-ready explanation
 
 Theory Summary (in my own words)
 What is Docker?
@@ -281,5 +288,51 @@ Health checks provide valuable operational insight
 Documentation is essential for reproducibility
 
 text
+
+## Root Cause Analysis
+
+### Issue 1: Path Error When Saving File
+**Root Cause:** I used an absolute path `/phase2/day01-static-site` instead of using `~` (home directory) or a relative path. In Linux, `/phase2/` refers to a directory at the root of the filesystem, which doesn't exist. The correct location should be `/home/affanlinux/phase2/day01-static-site` or using `~/phase2/day01-static-site`.
+
+**Technical Explanation:** When using `nano /phase2/day01-static-site`, the system looks for a directory called `phase2` at the root (`/`). Since this directory doesn't exist, the save operation fails. Using `~` expands to `/home/affanlinux/`, which is the correct path.
+
+### Issue 2: Port Already in Use
+**Root Cause:** Another container or service was already using port 8080 on the host system. Docker cannot map two containers to the same host port simultaneously.
+
+## Architecture Diagram
+
+┌─────────────────────────────────────────────────────────────┐
+│ HOST MACHINE (Ubuntu) │
+│ │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ DOCKER ENGINE │ │
+│ │ │ │
+│ │ ┌──────────────────────────────────────────────┐ │ │
+│ │ │ CONTAINER: site │ │ │
+│ │ │ │ │ │
+│ │ │ ┌────────────────────────────────────────┐ │ │ │
+│ │ │ │ IMAGE: static-site:1.0 │ │ │ │
+│ │ │ │ ┌────────────────────────────┐ │ │ │ │
+│ │ │ │ │ Alpine Linux (OS) │ │ │ │ │
+│ │ │ │ │ Nginx (Web Server) │ │ │ │ │
+│ │ │ │ │ index.html (App) │ │ │ │ │
+│ │ │ │ └────────────────────────────┘ │ │ │ │
+│ │ │ └────────────────────────────────────────┘ │ │ │
+│ │ │ │ │ │
+│ │ │ Port 80 (inside container) │ │ │
+│ │ └──────────────┬───────────────────────────────┘ │ │
+│ │ │ │ │
+│ │ │ docker run -p 8080:80 │ │
+│ │ ▼ │ │
+│ └─────────────────────────────────────────────────────┘ │
+│ │ │
+│ │ Port 8080 (host) │
+│ ▼ │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ BROWSER / curl │ │
+│ │ http://localhost:8080 │ │
+│ └─────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────┘
+
 
 
