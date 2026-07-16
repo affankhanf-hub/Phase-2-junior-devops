@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Volume Demo</title>
+    <style>
+        body { font-family: Arial; max-width: 600px; margin: 50px auto; padding: 20px; }
+        h1 { color: #0a5c8c; }
+        .container { background: #f0f4f8; padding: 20px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📦 Docker Volume Demo</h1>
+        <p>This data is stored in a volume!</p>
+        <p>It will survive container deletion.</p>
+        <p><small>Container ID: <span id="hostname"></span></small></p>
+    </div>
+    <script>
+        fetch('/hostname')
+            .then(r => r.text())
+            .then(h => document.getElementById('hostname').textContent = h);
+    </script>
+</body>
+</html>
