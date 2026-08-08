@@ -1,15 +1,18 @@
 📝 Day 5 - Docker Networks and Environment Variables
+
 📋 Objective
 Learn how to connect multiple containers using Docker networks and configure them using environment variables to simulate different environments (development, staging, production).
 
 📚 Textbook Chapters Studied
+
 Chapter 3 - Docker Storage, Networks, and Registries
 
 Section 3.5: Docker Networks
 
 Section 3.6: Environment Variables
 
-🎯 Theory Summary (In My Own Words)
+🎯 Theory Summary
+
 Docker Networks
 By default, each container runs in isolation. To make containers communicate with each other, we place them on the same Docker network. Once on the same network, containers can reach each other using their container names (like web-prod) instead of IP addresses.
 
@@ -217,6 +220,7 @@ Answer: They configure applications without changing code.
 Answer: docker network inspect <network-name>
 
 ✅ Lessons Learned
+
 Containers on the same network can communicate by name
 
 Environment variables configure apps without code changes
