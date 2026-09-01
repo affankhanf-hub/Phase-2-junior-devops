@@ -1,7 +1,7 @@
-📋 Objective
+Objective
 Learn to write Bash scripts for automation, including variables, conditionals, loops, and exit codes.
 
-📚 Textbook Chapters Studied
+Textbook Chapters Studied
 Chapter 5 – Bash Automation for DevOps
 
 Section 5.2: Why Bash still matters
@@ -14,15 +14,15 @@ Section 5.5: Exit codes
 
 Section 5.6: Idempotency
 
-🎯 Theory Summary (In My Own Words)
+Theory Summary (In My Own Words)
 Bash scripting is the foundation of automation in DevOps. Instead of typing commands manually, I write scripts that run multiple commands together. I learned about set -euo pipefail for safety, exit codes (0 = success), and idempotency (running scripts safely multiple times).
 
-🔧 Lab Environment
+Lab Environment
 OS: Ubuntu 22.04 (WSL2)
 
 Shell: Bash
 
-📁 Files Created
+ Files Created
 1. scripts/healthcheck.sh
 bash
 #!/usr/bin/env bash
@@ -136,6 +136,7 @@ text
 ✅ Backup created: /home/affanlinux/backups/backup_20260901_120000.tar.gz
 📦 Backup size: 12M
 ====================================
+
 Log Collection Output
 text
 ========== COLLECTING CONTAINER LOGS ==========
