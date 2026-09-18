@@ -1,0 +1,25 @@
+name: Automation CI
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  automation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run health check
+        run: ./scripts/healthcheck.sh
+
+      - name: Install Ansible
+        run: |
+          sudo apt update
+          sudo apt install ansible -y
+
+      - name: Run Ansible playbook
+        run: ansible-playbook -i ansible/inventory.ini ansible/playbook.yml
