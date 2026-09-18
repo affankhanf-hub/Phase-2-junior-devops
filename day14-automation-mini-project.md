@@ -1,5 +1,7 @@
 📝 Project 2 – Automation Mini Project (Complete Report)
+
 📋 Objective
+
 Build a complete automation pipeline using Bash, Ansible, and GitHub Actions.
 
 📚 Textbook Chapters Studied
@@ -9,7 +11,8 @@ Chapter 7 – Ansible Configuration Management
 
 Chapter 8 – GitHub Actions and CI/CD
 
-🎯 Theory Summary (In My Own Words)
+🎯 Theory Summary 
+
 Project 2 combines everything learned in Week 2. Bash scripts handle health checks and backups. Ansible configures the server (installs nginx + deploys website). GitHub Actions runs everything automatically when code is pushed. This is a real-world CI/CD pipeline.
 
 🔧 Lab Environment
