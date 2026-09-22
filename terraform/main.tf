@@ -2,8 +2,8 @@ provider "aws" {
   region = "eu-north-1"
 }
 
-resource "aws_security_group" "web_sg" {
-  name        = "terraform-web-sg"
+resource "aws_security_group" "shopeasy_sg" {
+  name        = "shopeasy-sg"
   description = "Allow SSH and HTTP"
 
   ingress {
@@ -28,16 +28,16 @@ resource "aws_security_group" "web_sg" {
   }
 }
 
-resource "aws_instance" "web" {
+resource "aws_instance" "shopeasy" {
   ami                    = "ami-0aba19e56f3eaec05"
   instance_type          = "t3.micro"
-  vpc_security_group_ids = [aws_security_group.web_sg.id]
+  vpc_security_group_ids = [aws_security_group.shopeasy_sg.id]
 
   tags = {
-    Name = "Terraform-Web-Server"
+    Name = "ShopEasy-Capstone"
   }
 }
 
 output "instance_ip" {
-  value = aws_instance.web.public_ip
+  value = aws_instance.shopeasy.public_ip
 }

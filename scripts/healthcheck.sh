@@ -3,7 +3,6 @@ set -euo pipefail
 
 echo "========== HEALTH CHECK =========="
 
-# Check Docker
 if docker info >/dev/null 2>&1; then
     echo "✅ Docker is running"
 else
@@ -11,13 +10,18 @@ else
     exit 1
 fi
 
-# Check HTTP
-for port in 8080 8081; do
-    if curl -s -o /dev/null -w "%{http_code}" "http://localhost:$port" | grep -q "200"; then
-        echo "✅ HTTP localhost:$port is reachable"
+for container in shopeasy-web shopeasy-db shopeasy-cache; do
+    if docker ps --format '{{.Names}}' | grep -q "^$container$"; then
+        echo "✅ Container '$container' is running"
     else
-        echo "❌ HTTP localhost:$port is NOT reachable"
+        echo "❌ Container '$container' is NOT running"
     fi
 done
+
+if curl -s -o /dev/null -w "%{http_code}" http://localhost:8080 | grep -q "200"; then
+    echo "✅ Website is reachable"
+else
+    echo "❌ Website is NOT reachable"
+fi
 
 echo "=================================="

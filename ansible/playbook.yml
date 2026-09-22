@@ -1,24 +1,37 @@
 ---
-- name: Setup web server
-  hosts: local
+- name: Setup ShopEasy server
+  hosts: web
   become: true
 
   tasks:
-    - name: Install nginx
+    - name: Update apt cache
       apt:
-        name: nginx
-        state: present
         update_cache: yes
 
-    - name: Start nginx
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Start Docker
       service:
-        name: nginx
+        name: docker
         state: started
         enabled: true
 
-    - name: Deploy website
+    - name: Remove old container if exists
+      shell: docker rm -f shopeasy-web 2>/dev/null || true
+
+    - name: Create website directory on EC2
+      file:
+        path: /home/ubuntu/site
+        state: directory
+        mode: '0755'
+
+    - name: Copy ShopEasy website to EC2
       copy:
-        content: |
-          <h1>Deployed by Ansible!</h1>
-          <p>This server was configured automatically.</p>
-        dest: /var/www/html/index.html
+        src: /home/affanlinux/phase-2-junior-devops/docker/site/index.html
+        dest: /home/ubuntu/site/index.html
+
+    - name: Run nginx with ShopEasy website
+      shell: docker run -d --name shopeasy-web -p 80:80 -v /home/ubuntu/site:/usr/share/nginx/html:ro nginx

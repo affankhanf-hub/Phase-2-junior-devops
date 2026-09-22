@@ -3,11 +3,25 @@ version: '3.8'
 services:
   web:
     build: .
-    container_name: technova-web
+    container_name: shopeasy-web
     ports:
       - "8080:80"
-    volumes:
-      - ./site:/usr/share/nginx/html:ro
+    depends_on:
+      - db
+      - cache
+
+  db:
+    image: mysql:8.0
+    container_name: shopeasy-db
     environment:
-      - APP_ENV=production
-    restart: always
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: shopeasy
+    volumes:
+      - db_data:/var/lib/mysql
+
+  cache:
+    image: redis:alpine
+    container_name: shopeasy-cache
+
+volumes:
+  db_data:
