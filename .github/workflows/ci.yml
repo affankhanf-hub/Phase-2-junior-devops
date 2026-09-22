@@ -1,25 +1,27 @@
-name: Automation CI
+name: ShopEasy CI
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:
 
 jobs:
-  automation:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run health check
-        run: ./scripts/healthcheck.sh
+      - name: Build Docker image
+        run: docker build -t shopeasy-web ./docker
 
-      - name: Install Ansible
+      - name: Run container
+        run: docker run -d --name test -p 8080:80 shopeasy-web
+
+      - name: Test website
         run: |
-          sudo apt update
-          sudo apt install ansible -y
+          sleep 3
+          curl -f http://localhost:8080 || exit 1
 
-      - name: Run Ansible playbook
-        run: ansible-playbook -i ansible/inventory.ini ansible/playbook.yml
+      - name: Stop container
+        run: docker stop test
